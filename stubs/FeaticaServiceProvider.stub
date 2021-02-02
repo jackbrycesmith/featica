@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Providers;
+
+use Featica\Featica;
+use Featica\FeaticaApplicationServiceProvider;
+use Featica\Feature;
+use Illuminate\Support\Facades\Gate;
+
+class FeaticaServiceProvider extends FeaticaApplicationServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        parent::boot();
+
+    }
+
+    /**
+     * Configure the features flags available within the system.
+     *
+     * @return void
+     */
+    protected function configureFeatures()
+    {
+        // Featica::add(new Feature(
+        //     key: 'my-first-feature-flag',
+        //     type: Featica::TYPE_USER,
+        //     state: Feature::STATE_ON,
+        // ));
+    }
+
+    /**
+     * Register the Featica UI gate.
+     *
+     * This gate determines who can access Featica UI in non-local environments.
+     *
+     * @return void
+     */
+    protected function gate()
+    {
+        Gate::define('viewFeatica', function ($user) {
+            return in_array($user->email, [
+                //
+            ]);
+        });
+    }
+}
