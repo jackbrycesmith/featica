@@ -5,7 +5,9 @@ namespace Featica;
 use Featica\Commands\InstallCommand;
 use Featica\Commands\PublishCommand;
 use Featica\Http\Middleware\ShareInertiaData;
+use Featica\Http\Middleware\WhenFeatureState;
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,6 +22,7 @@ class FeaticaServiceProvider extends ServiceProvider
     {
         $this->registerPublishing();
         $this->registerRoutes();
+        $this->registerMiddlewareAlias();
         $this->shareFeaticaWithInertia();
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'featica');
     }
@@ -54,6 +57,17 @@ class FeaticaServiceProvider extends ServiceProvider
         ], function () {
             $this->loadRoutesFrom(__DIR__ . '/../src/Http/featica-dashboard-routes.php');
         });
+    }
+
+    /**
+     * Register middleware that can be applied with an alias.
+     *
+     * @return void
+     */
+    protected function registerMiddlewareAlias()
+    {
+        $router = $this->app->make(Router::class);
+        $router->aliasMiddleware('featica.when', WhenFeatureState::class);
     }
 
     /**

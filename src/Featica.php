@@ -86,6 +86,19 @@ class Featica
     }
 
     /**
+     * Get the state of the given feature key.
+     *
+     * @param string $feature The feature
+     * @param null|string $fallbackState The fallback state if the feature is not found.
+     *
+     * @return ?string
+     */
+    public static function stateOf(string $feature, ?string $fallbackState = Feature::STATE_OFF): ?string
+    {
+        return self::find($feature)?->state ?? $fallbackState;
+    }
+
+    /**
      * Check whether the given model has a given feature enabled.
      *
      * @param mixed $model The model

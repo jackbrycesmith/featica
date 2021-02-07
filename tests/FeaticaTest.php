@@ -95,6 +95,20 @@ test('Featica::when returns correct callback for global disabled feature', funct
     expect($result)->toBe('otherwise result');
 });
 
+// Featica::stateOf
+
+test('Featica::stateOf returns correct state for given feature key', function () {
+    expect(Featica::stateOf('undefinedFeature'))->toBe('off');
+    expect(Featica::stateOf('undefinedFeature', null))->toBeNull();
+
+    Featica::add(new Feature(key: 'feature-off-by-default', state: Feature::STATE_OFF));
+    expect(Featica::stateOf('feature-off-by-default'))->toBe('off');
+    expect(Featica::stateOf('feature-off-by-default', null))->toBe('off');
+
+    Featica::add(new Feature(key: 'feature-on-by-default', state: Feature::STATE_ON));
+    expect(Featica::stateOf('feature-on-by-default'))->toBe('on');
+});
+
 // Shareable data
 
 test('correct inertia share data', function () {
