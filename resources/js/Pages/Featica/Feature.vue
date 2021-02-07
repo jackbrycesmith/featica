@@ -22,7 +22,7 @@
                     <span class="pr-1.5 group-hover:text-gray-600">{{ feature.key }}</span>
                   </h2>
                   <p class="text-sm text-gray-500">
-                    <FeatureStateHint :feature="feature__" />
+                    <FeatureStateHint :state="feature.state" />
                   </p>
                 </div>
                 <div class="mt-4 flex space-x-3 md:mt-0">

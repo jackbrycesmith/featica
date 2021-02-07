@@ -8,7 +8,7 @@
         <div class="min-w-0 space-y-3">
           <div class="flex items-center space-x-3">
 
-            <FeatureStateHint :feature="feature" />
+            <FeatureStateHint :state="feature.state" />
 
             <span class="block">
               <h2 class="text-sm font-medium">
