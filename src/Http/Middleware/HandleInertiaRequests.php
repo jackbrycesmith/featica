@@ -58,6 +58,7 @@ class HandleInertiaRequests extends Middleware
                 'app_name' => config('app.name'),
                 'path' => config('featica.path'),
                 'timezone' => config('app.timezone'),
+                'default_feature_owner' => Featica::$defaultFeatureOwner
             ]
         ]);
     }

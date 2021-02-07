@@ -109,9 +109,7 @@ test('Featica::stateOf returns correct state for given feature key', function ()
     expect(Featica::stateOf('feature-on-by-default'))->toBe('on');
 });
 
-// Shareable data
-
-test('correct inertia share data', function () {
+test('Featica::inertiaShareData() works', function () {
     $feature = Featica::add(new Feature(
         key: 'feature-1',
         state: Feature::STATE_OFF,
@@ -132,4 +130,12 @@ test('correct inertia share data', function () {
         'key' => 'feature-1',
         'state' => Feature::STATE_OFF
     ]);
+});
+
+test('Featica::setDefaultOwner(...) works', function () {
+    expect(Featica::$defaultFeatureOwner)->toBeNull();
+
+    Featica::setDefaultOwner('Default Owner');
+
+    expect(Featica::$defaultFeatureOwner)->toBe('Default Owner');
 });

@@ -26,6 +26,13 @@ class Featica
     public static array $features = [];
 
     /**
+     * The default fallback 'owner' for all features, unless otherwise stated.
+     *
+     * @var ?string
+     */
+    public static ?string $defaultFeatureOwner = null;
+
+    /**
      * The feature owning models that exist within the application.
      *
      * @var array
@@ -223,6 +230,20 @@ class Featica
         return (static::$authUsing ?: function () {
             return app()->environment('local');
         })($request);
+    }
+
+    /**
+     * Sets the default feature 'owner'.
+     *
+     * @param $name The name of the owner
+     *
+     * @return static
+     */
+    public static function setDefaultOwner(?string $name = null)
+    {
+        static::$defaultFeatureOwner = $name;
+
+        return new static;
     }
 
     public static function resolveFeatureFlagOwningModel($key)

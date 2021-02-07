@@ -6,7 +6,7 @@
           <div>
             <div>
               <div class="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6">
-                <div class="max-w-full space-y-1.5">
+                <div class="max-w-full space-y-2.5">
                   <h1 class="text-xl sm:text-3xl font-bold text-gray-900 truncate">{{ feature?.meta?.['name'] ?? startCase(feature.key) }}</h1>
                   <h2 @click="copy(feature.key) && $refs.keyIcon.success()" class="text-lg sm:text-xl flex items-center space-x-2.5 font-medium text-gray-500 group cursor-pointer">
                     <SuccessFlashSwitcher ref="keyIcon">
@@ -42,15 +42,7 @@
                 <div
                   :class="{ 'border-t mt-6 pt-6': size(feature__.dates) > 0 }"
                   class="border-b border-gray-200 pb-6 space-y-8">
-                  <div>
-                    <h2 class="text-sm font-medium text-gray-500">Owner</h2>
-                    <ul class="mt-3 space-y-3">
-                      <li class="flex justify-start">
-                        <FeatureOwner />
-                      </li>
-                    </ul>
-                  </div>
-
+                  <FeatureOwner :name="feature__.owner_name" />
                 </div>
               </aside>
               <div class="py-3 xl:pt-6 xl:pb-0">
@@ -72,15 +64,7 @@
           <div
             :class="{ 'border-t mt-6 py-6': size(feature__.dates) > 0 }"
             class="border-gray-200 space-y-8">
-            <div>
-              <h2 class="text-sm font-medium text-gray-500">Owner</h2>
-              <ul class="mt-3 space-y-3">
-                <li class="flex justify-start">
-                  <FeatureOwner />
-                </li>
-              </ul>
-            </div>
-
+            <FeatureOwner :name="feature__.owner_name" />
           </div>
         </aside>
       </div>
