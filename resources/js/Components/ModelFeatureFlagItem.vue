@@ -2,7 +2,7 @@
   <li>
     <div class="relative py-5 flex items-center">
       <div class="flex flex-col space-y-2">
-        <div @click.prevent="copy(feature.key) && $refs.keyIcon.success()" class="relative group flex items-center space-x-2.5 cursor-pointer">
+        <div @click.prevent="copy(feature.key) && keyIcon.success()" class="relative group flex items-center space-x-2.5 cursor-pointer">
           <SuccessFlashSwitcher ref="keyIcon">
             <template #default>
               <HeroiconsMediumKey class="flex-shrink-0 w-5 h-5 text-gray-400 group-hover:text-gray-500" />

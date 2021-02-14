@@ -8,7 +8,7 @@
               <div class="md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6">
                 <div class="max-w-full space-y-2.5">
                   <h1 class="text-xl sm:text-3xl font-bold text-gray-900 truncate">{{ feature?.meta?.['name'] ?? startCase(feature.key) }}</h1>
-                  <h2 @click="copy(feature.key) && $refs.keyIcon.success()" class="text-lg sm:text-xl flex items-center space-x-2.5 font-medium text-gray-500 group cursor-pointer">
+                  <h2 @click="copy(feature.key) && keyIcon.success()" class="text-lg sm:text-xl flex items-center space-x-2.5 font-medium text-gray-500 group cursor-pointer">
                     <SuccessFlashSwitcher ref="keyIcon">
                       <template #default>
                         <HeroiconsMediumKey class="flex-shrink-0 w-6 h-6 group-hover:text-gray-600" />
