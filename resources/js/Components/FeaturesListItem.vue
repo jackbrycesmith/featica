@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, ref } from 'vue'
 import { useClipboard } from '@vueuse/core'
 import HeroiconsMediumThumbUp from '@/svgs/heroicons/medium-thumb-up.svg'
 import HeroiconsSmallChevronRight from '@/svgs/heroicons/small-chevron-right.svg'
@@ -54,6 +54,8 @@ import HeroiconsMediumKey from '@/svgs/heroicons/medium-key.svg'
 import HeroiconsMediumClipboardCheck from '@/svgs/heroicons/medium-clipboard-check.svg'
 import SuccessFlashSwitcher from '@/Components/SuccessFlashSwitcher.vue'
 import FeatureStateHint from '@/Components/FeatureStateHint.vue'
+
+const keyIcon = ref(null)
 
 const props = defineProps({ feature: { type: Object, required: true } })
 

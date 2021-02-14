@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { computed, defineProps, defineEmit } from 'vue'
+import { computed, defineProps, defineEmit, ref } from 'vue'
 import { useClipboard } from '@vueuse/core'
 import { SwitchGroup, Switch, SwitchLabel } from '@headlessui/vue'
 import SuccessFlashSwitcher from '@/Components/SuccessFlashSwitcher.vue'
@@ -44,8 +44,8 @@ import FeatureStateHint from '@/Components/FeatureStateHint.vue'
 import HeroiconsMediumKey from '@/svgs/heroicons/medium-key.svg'
 import HeroiconsMediumClipboardCheck from '@/svgs/heroicons/medium-clipboard-check.svg'
 
+const keyIcon = ref(null)
 const { copy } = useClipboard()
-
 const emit = defineEmit(['update:modelValue', 'update:model', 'changed'])
 const props = defineProps({
   feature: {

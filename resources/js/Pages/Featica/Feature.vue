@@ -94,6 +94,8 @@ const props = defineProps({
 
 const { copy } = useClipboard()
 
+const keyIcon = ref(null)
+
 const feature__ = ref({})
 
 const title = computed(() => {
