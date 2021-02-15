@@ -17,14 +17,41 @@ class WhenFeatureState
      * @param string $feature The feature
      * @param string $state The state
      * @param integer $abortCode The abort code
+     * @param null|string $abortRedirectUrl The redirect url
+     * @param null|string $abortRedirectRoute The redirect named route
      *
      * @return \Illuminate\Http\Response
      */
-    public function handle(Request $request, Closure $next, string $feature, string $state = Feature::STATE_ON, int $abortCode = 403)
+    public function handle(Request $request, Closure $next, string $feature, string $state = Feature::STATE_ON, int $abortCode = 403, ?string $abortRedirectUrl = null, ?string $abortRedirectRoute = null)
     {
-        abort_if(Featica::stateOf($feature) !== $state, $abortCode);
+        $shouldAbort = Featica::stateOf($feature) !== $state;
+
+        if ($shouldAbort) {
+            $abortResponse = match(true) {
+                empty($abortRedirectUrl) && empty($abortRedirectRoute) => $abortCode,
+                !empty($abortRedirectUrl) => redirect(to: $abortRedirectUrl, status: $this->safeRedirectCode($abortCode)),
+                !empty($abortRedirectRoute) => redirect(to: route($abortRedirectRoute), status: $this->safeRedirectCode($abortCode)),
+            };
+
+            abort($abortResponse);
+        }
 
         return $next($request);
+    }
+
+    /**
+     * Return a valid redirect status code.
+     *
+     * @param integer $abortCode The given abort code
+     *
+     * @return integer A valid redirect status code
+     */
+    private function safeRedirectCode(int $abortCode): int
+    {
+        return match(true) {
+           ($abortCode >= 300) && ($abortCode < 400) => $abortCode,
+           default => 302
+        };
     }
 
     /**
@@ -33,14 +60,19 @@ class WhenFeatureState
      * @param string $feature The feature
      * @param string $state The state
      * @param integer $abortCode The abort code
+     * @param null|string $abortRedirectUrl The abort redirect url
+     * @param null|string $abortRedirectRoute The abort redirect route
      *
      * @return string
      */
-    public static function is(string $feature, string $state = Feature::STATE_ON, int $abortCode = 403): string
+    public static function is(string $feature, string $state = Feature::STATE_ON, int $abortCode = 403, ?string $abortRedirectUrl = null, ?string $abortRedirectRoute = null): string
     {
         $class = static::class;
 
-        return "{$class}:{$feature},{$state},{$abortCode}";
+        return match(true) {
+            empty($abortRedirectUrl) && empty($abortRedirectRoute) => "{$class}:{$feature},{$state},{$abortCode}",
+            default => "{$class}:{$feature},{$state},{$abortCode},{$abortRedirectUrl},{$abortRedirectRoute}"
+        };
     }
 
     /**
@@ -48,24 +80,28 @@ class WhenFeatureState
      *
      * @param string $feature The feature
      * @param integer $abortCode The abort code
+     * @param null|string $abortRedirectUrl The abort redirect url
+     * @param null|string $abortRedirectRoute The abort redirect route
      *
      * @return string
      */
-    public static function on(string $feature, int $abortCode = 403): string
+    public static function on(string $feature, int $abortCode = 403, ?string $abortRedirectUrl = null, ?string $abortRedirectRoute = null): string
     {
-        return static::is($feature, Feature::STATE_ON, $abortCode);
+        return static::is($feature, Feature::STATE_ON, $abortCode, $abortRedirectUrl, $abortRedirectRoute);
     }
 
     /**
      * Middleware registration helper; when feature is 'off'...
      *
      * @param string $feature The feature
-     * @param integer $abortCode The abort code
+     * @param integer $abortCode The abort response
+     * @param null|string $abortRedirectUrl The abort redirect url
+     * @param null|string $abortRedirectRoute The abort redirect route
      *
-     * @return string ( description_of_the_return_value )
+     * @return string
      */
-    public static function off(string $feature, int $abortCode = 403): string
+    public static function off(string $feature, int $abortCode = 403, ?string $abortRedirectUrl = null, ?string $abortRedirectRoute = null): string
     {
-        return static::is($feature, Feature::STATE_OFF, $abortCode);
+        return static::is($feature, Feature::STATE_OFF, $abortCode, $abortRedirectUrl, $abortRedirectRoute);
     }
 }

@@ -21,10 +21,14 @@ test('nicer syntax helper works: is/on/off', function () {
     // WhenFeatureState::on(...)
     expect(WhenFeatureState::on('feature-key'))->toBe(WhenFeatureState::class.':feature-key,on,403');
     expect(WhenFeatureState::on('feature-key', 404))->toBe(WhenFeatureState::class.':feature-key,on,404');
+    expect(WhenFeatureState::on('feature-key', abortRedirectUrl: 'https://google.com'))->toBe(WhenFeatureState::class.':feature-key,on,403,https://google.com,');
+    expect(WhenFeatureState::on('feature-key', abortRedirectRoute: 'named-route'))->toBe(WhenFeatureState::class.':feature-key,on,403,,named-route');
 
     // WhenFeatureState::off(...)
     expect(WhenFeatureState::off('feature-key'))->toBe(WhenFeatureState::class.':feature-key,off,403');
     expect(WhenFeatureState::off('feature-key', 404))->toBe(WhenFeatureState::class.':feature-key,off,404');
+    expect(WhenFeatureState::off('feature-key', abortRedirectUrl: 'https://google.com'))->toBe(WhenFeatureState::class.':feature-key,off,403,https://google.com,');
+    expect(WhenFeatureState::off('feature-key', abortRedirectRoute: 'named-route'))->toBe(WhenFeatureState::class.':feature-key,off,403,,named-route');
 });
 
 it('aborts if feature has not been registered', function () {
@@ -41,6 +45,43 @@ it('aborts if feature is off by default', function () {
 
     $response = $this->get('/featica-when-middleware-test');
     $response->assertStatus(403);
+});
+
+it('aborts with redirect to url', function () {
+    $route = Route::get('/featica-when-middleware-test', fn() => '👋')
+        ->middleware(
+            WhenFeatureState::on('some-undefined-feature', abortRedirectUrl: 'https://google.com')
+        );
+
+    $response = $this->get('/featica-when-middleware-test');
+    $response->assertRedirect('https://google.com');
+    $response->assertStatus(302);
+});
+
+it('aborts with redirect to named route', function () {
+    Route::get('/named-url-test', fn() => '👋')->name('named-route-test');
+
+    $route = Route::get('/featica-when-middleware-test', fn() => '👋')
+        ->middleware(
+            WhenFeatureState::on('some-undefined-feature', abortRedirectRoute: 'named-route-test')
+        );
+
+    $response = $this->get('/featica-when-middleware-test');
+    $response->assertRedirect('/named-url-test');
+    $response->assertStatus(302);
+});
+
+it('aborts with redirect with alternative status code', function () {
+    Route::get('/named-url-test', fn() => '👋')->name('named-route-test');
+
+    $route = Route::get('/featica-when-middleware-test', fn() => '👋')
+        ->middleware(
+            WhenFeatureState::on('some-undefined-feature', abortCode: 307, abortRedirectRoute: 'named-route-test')
+        );
+
+    $response = $this->get('/featica-when-middleware-test');
+    $response->assertRedirect('/named-url-test');
+    $response->assertStatus(307);
 });
 
 it('continues when middleware allows fpor when feature is off & the passed feature is off by default', function () {
