@@ -2,12 +2,12 @@
 
 namespace Featica\Tests;
 
-use ClaudioDekker\Inertia\InertiaTestingServiceProvider;
 use Featica\FeaticaApplicationServiceProvider;
 use Featica\FeaticaServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Inertia\ServiceProvider as InertiaServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -26,9 +26,9 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            FeaticaServiceProvider::class,
-            InertiaTestingServiceProvider::class,
             FeaticaApplicationServiceProvider::class,
+            FeaticaServiceProvider::class,
+            InertiaServiceProvider::class,
         ];
     }
 
@@ -41,7 +41,7 @@ abstract class TestCase extends Orchestra
             'prefix' => '',
         ]);
 
-        $app['config']->set('inertia.page.paths', [
+        $app['config']->set('inertia.testing.page_paths', [
             realpath(__DIR__ . '/../resources/js/Pages')
         ]);
     }
