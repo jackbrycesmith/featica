@@ -21,11 +21,9 @@ mix
 .js('resources/js/app.js', '').vue({
   version: 3,
   runtimeOnly: true,
-  extractVueStyles: true,
+  extractVueStyles: false,
   globalVueStyles: false
 })
-.postCss('resources/css/app.css', '')
-.options({ autoprefixer: false })
 .alias({
   '@': path.resolve(__dirname, 'resources/js/'),
 })

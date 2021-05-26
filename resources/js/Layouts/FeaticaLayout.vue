@@ -251,6 +251,10 @@ export default {
 </script>
 
 <style>
+html {
+  scroll-behavior: smooth;
+}
+
 .custom-shape-divider-bottom-1609865803 {
     position: absolute;
     bottom: 0;
