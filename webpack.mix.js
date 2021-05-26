@@ -27,7 +27,6 @@ mix
 .alias({
   '@': path.resolve(__dirname, 'resources/js/'),
 })
-.copy('public', '../demo.featica.com/public')
 .webpackConfig(webpack => {
   return {
     stats: 'normal',
