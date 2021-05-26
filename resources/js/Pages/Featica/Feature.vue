@@ -94,7 +94,7 @@ import HeroiconsMediumClipboardCheck from '@/svgs/heroicons/medium-clipboard-che
 import FeaturesList from '@/Components/FeaturesList.vue'
 import DateIconLabel from '@/Components/DateIconLabel.vue'
 import FeatureOwner from '@/Components/FeatureOwner.vue'
-import Feature from '@/models/Feature.js'
+import Feature from '@/Models/Feature.js'
 import FeatureStateHint from '@/Components/FeatureStateHint.vue'
 import SuccessFlashSwitcher from '@/Components/SuccessFlashSwitcher.vue'
 

@@ -54,7 +54,7 @@
 
 <script setup>
 import { Inertia } from '@inertiajs/inertia'
-import useKeydown from '@/composables/useKeydown.js'
+import useKeydown from '@/Composables/useKeydown.js'
 import { upperFirst, throttle, pickBy } from 'lodash-es'
 import { useTitle } from '@vueuse/core'
 import { defineProps, computed, ref, watch } from 'vue'

@@ -21,7 +21,7 @@
 <script setup>
 import { isEmpty } from 'lodash-es'
 import { defineProps, computed } from 'vue'
-import { initials } from '@/utils/strings.js'
+import { initials } from '@/Utils/String.js'
 import { usePage } from '@inertiajs/inertia-vue3'
 
 const props = defineProps({

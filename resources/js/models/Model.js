@@ -1,5 +1,5 @@
 // https://gist.github.com/lorisleiva/93e66ba226ec53cc13c9e54d7f334f2c
-import { getPayloadData } from '@/utils/data'
+import { getPayloadData } from '@/Utils/Data.js'
 
 export default class Model {
     constructor (attributes = {}) {

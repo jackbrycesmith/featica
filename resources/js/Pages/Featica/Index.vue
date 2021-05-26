@@ -19,10 +19,10 @@
 <script setup>
 import { defineProps, ref, watch } from 'vue'
 import { useTitle } from '@vueuse/core'
-import { getPayloadData } from '@/utils/data.js'
+import { getPayloadData } from '@/Utils/Data.js'
 import FeaticaLogo from '@/svgs/featica-logo.svg'
 import FeaturesList from '@/Components/FeaturesList.vue'
-import Feature from '@/models/Feature.js'
+import Feature from '@/Models/Feature.js'
 useTitle('Features | featica')
 
 const props = defineProps({
