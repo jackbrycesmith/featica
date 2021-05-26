@@ -1,5 +1,6 @@
 const mix = require('laravel-mix')
 const path = require('path')
+const ESLintPlugin = require('eslint-webpack-plugin')
 
 // Do not use Laravel mix's built-in SVG loader.
 Mix.listen('configReady', function(config) {
@@ -44,6 +45,10 @@ mix
       ],
     },
     plugins: [
+      new ESLintPlugin({
+        extensions: ['vue', 'js'],
+        fix: true
+      }),
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 1
       })

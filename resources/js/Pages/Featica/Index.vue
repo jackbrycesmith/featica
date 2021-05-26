@@ -1,7 +1,9 @@
 <template>
   <div class="py-6 px-4 sm:p-6 lg:pb-8">
     <div>
-      <h2 class="text-lg leading-6 font-medium text-gray-900">Features</h2>
+      <h2 class="text-lg leading-6 font-medium text-gray-900">
+        Features
+      </h2>
       <p class="mt-1 text-sm text-gray-500">
         The features you have configured for your app.
       </p>
@@ -9,8 +11,8 @@
 
     <FeaturesList
       :features="features__"
-      class="mt-5" />
-
+      class="mt-5"
+    />
   </div>
 </template>
 
@@ -29,6 +31,8 @@ const props = defineProps({
     default: () => []
   }
 })
+
+// const modelFeatures = useModel(Feature, props.features)
 
 const features__ = ref([])
 watch(() => props.features, () => {

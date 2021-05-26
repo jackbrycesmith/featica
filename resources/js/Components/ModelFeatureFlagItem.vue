@@ -2,7 +2,10 @@
   <li>
     <div class="relative py-5 flex items-center">
       <div class="flex flex-col space-y-2">
-        <div @click.prevent="copy(feature.key) && keyIcon.success()" class="relative group flex items-center space-x-2.5 cursor-pointer">
+        <div
+          class="relative group flex items-center space-x-2.5 cursor-pointer"
+          @click.prevent="copy(feature.key) && keyIcon.success()"
+        >
           <SuccessFlashSwitcher ref="keyIcon">
             <template #default>
               <HeroiconsMediumKey class="flex-shrink-0 w-5 h-5 text-gray-400 group-hover:text-gray-500" />
@@ -21,10 +24,20 @@
         <FeatureStateHint :state="feature.state" />
       </div>
 
-      <SwitchGroup as="div" class="flex items-center space-x-4 flex-1 justify-end">
-        <SwitchLabel class="sr-only">Toggle feature flag availability for this model</SwitchLabel>
+      <SwitchGroup
+        as="div"
+        class="flex items-center space-x-4 flex-1 justify-end"
+      >
+        <SwitchLabel class="sr-only">
+          Toggle feature flag availability for this model
+        </SwitchLabel>
 
-        <Switch as="button" v-model="toggleState" :className="resolveSwitchClass" v-slot="{ checked }">
+        <Switch
+          v-slot="{ checked }"
+          v-model="toggleState"
+          as="button"
+          :class-name="resolveSwitchClass"
+        >
           <span
             class="inline-block w-5 h-5 transition duration-200 ease-in-out transform bg-white rounded-full"
             :class="{ 'translate-x-5': checked, 'translate-x-0': !checked }"

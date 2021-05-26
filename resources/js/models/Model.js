@@ -35,6 +35,7 @@ export default class Model {
         let relationships = this.getRelationships() || {}
 
         Object.keys(relationships).forEach(key => {
+          /* eslint-disable no-prototype-builtins */
           if (attributes.hasOwnProperty(key) && attributes[key]) {
             attributes[key] = relationships[key].make(attributes[key])
           }

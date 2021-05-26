@@ -1,18 +1,20 @@
 <template>
   <slot
     v-if="!isSuccess"
-    name="default"/>
+    name="default"
+  />
 
   <slot
     v-if="isSuccess"
-    name="success"/>
+    name="success"
+  />
 </template>
 
 <script>
 export default {
   props: {
     showSuccessLengthMs: { type: Number, default: 1000 },
-    toBlurAfterSuccessEl: { }
+    toBlurAfterSuccessEl: { type: Object, required: false, default: null }
   },
   data () {
     return {

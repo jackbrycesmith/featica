@@ -1,13 +1,11 @@
 <template>
   <ul class="relative divide-y divide-gray-200">
-
     <ModelsListItem
       v-for="model in models"
       :key="model.id"
       :type="type"
       :model="model"
     />
-
   </ul>
 </template>
 
@@ -21,15 +19,13 @@ export default {
   },
   props: {
     type: {
-      type: String
+      type: String,
+      required: true
     },
     models: {
-      type: Array
+      type: Array,
+      required: true
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>

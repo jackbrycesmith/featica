@@ -6,7 +6,8 @@
       :is-previous="key === 0"
       :is-next="key === (links.length - 1)"
       :link="link"
-      class="pagination-item" />
+      class="pagination-item"
+    />
   </div>
 </template>
 

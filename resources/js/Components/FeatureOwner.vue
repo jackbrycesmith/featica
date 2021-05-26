@@ -1,6 +1,8 @@
 <template>
   <div v-if="shouldDisplay">
-    <h2 class="text-sm font-medium text-gray-500">Owner</h2>
+    <h2 class="text-sm font-medium text-gray-500">
+      Owner
+    </h2>
 
     <li class="flex justify-start mt-1.5">
       <div class="flex items-center space-x-3">
@@ -8,7 +10,9 @@
           <span v-text="initials(name ?? defaultOwner)" />
         </div>
 
-        <div class="text-sm font-medium text-gray-900">{{ name ?? defaultOwner }}</div>
+        <div class="text-sm font-medium text-gray-900">
+          {{ name ?? defaultOwner }}
+        </div>
       </div>
     </li>
   </div>

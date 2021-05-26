@@ -1,0 +1,15 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:vue/vue3-recommended"
+    ],
+    "globals": {
+        "label": true,
+        "route": true
+    },
+    "rules": {
+        "no-unused-vars": "off",
+        "vue/no-v-html": "off",
+        "vue/no-multiple-template-root": "off"
+    }
+}

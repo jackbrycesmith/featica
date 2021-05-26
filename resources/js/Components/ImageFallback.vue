@@ -8,16 +8,6 @@
 
 <script>
 export default {
-  name: "ImageFallback",
-  props: {
-    url: {
-      type: String,
-      required: false
-    }
-  }
+  name: "ImageFallback"
 }
 </script>
-
-<style scoped>
-
-</style>
