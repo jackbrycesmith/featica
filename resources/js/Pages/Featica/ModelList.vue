@@ -1,5 +1,5 @@
 <template>
-  <div class="py-6 px-4 sm:p-6 lg:pb-8">
+  <div class="py-6 px-4 sm:p-6 lg:pb-8 flex flex-col h-full">
     <div>
       <h2 class="text-lg leading-6 font-medium text-gray-900">
         {{ modelListTitle }}
@@ -45,7 +45,7 @@
     <ModelsList
       :models="models.data"
       :type="type"
-      class="mt-5"
+      class="mt-5 flex-1"
     />
 
     <Pagination :links="models.links" />
