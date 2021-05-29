@@ -46,11 +46,11 @@ it('returns user list', function () {
 });
 
 it('can be search filtered', function () {
-    Featica::$owningModelDashboardSearch = [
+    Featica::setOwningModelDashboardSearch([
         User::class => [
             'columns' => ['name', 'email']
         ]
-    ];
+    ]);
 
     $users = User::factory()->count(50)->create();
 

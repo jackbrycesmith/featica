@@ -25,7 +25,7 @@ class UpdateModelFeatureFlagsController
         abort_if(is_null($featureOwningModel), 404);
 
         $featureFlags = $request->input('feature_flags');
-        $featureFlags = collect($featureFlags)->only(array_keys(Featica::$features));
+        $featureFlags = collect($featureFlags)->only(array_keys(Featica::definedFeatures()));
         $featureOwningModel->feature_flags = $featureFlags;
         $featureOwningModel->save();
 

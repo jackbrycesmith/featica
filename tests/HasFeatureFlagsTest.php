@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Schema;
 
 beforeEach(function () {
-    Featica::$features = [];
+    Featica::clearDefinedFeatures();
 
     Featica::add(new Feature(
         key: 'global-enabled',
@@ -71,11 +71,11 @@ test('searchableColumnsForFeaticaDashboard filters out non existant columns', fu
 });
 
 test('scopeFeaticaDashboardSearch works', function () {
-    Featica::$owningModelDashboardSearch = [
+    Featica::setOwningModelDashboardSearch([
         User::class => [
             'columns' => ['name', 'email']
         ]
-    ];
+    ]);
 
     $salah = User::factory()->create(['name' => 'Salah', 'email' => 'salah@lfc.com']);
     $mane = User::factory()->create(['name' => 'Mane', 'email' => 'mane@lfc.com']);

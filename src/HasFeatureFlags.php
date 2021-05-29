@@ -17,7 +17,6 @@ trait HasFeatureFlags
      * Determines if specified feature is enabled.
      *
      * @param string $featureKey The feature key
-     *
      * @return boolean True if enabled, False otherwise.
      */
     public function hasFeature(string $featureKey): bool
@@ -78,11 +77,11 @@ trait HasFeatureFlags
      */
     public function searchableColumnsForFeaticaDashboard(): array
     {
-        $item = Arr::get(Featica::$owningModelDashboardSearch, $this::class);
+        $item = Arr::get(Featica::getOwningModelDashboardSearch(), $this::class);
 
         $modelColumns = Schema::getColumnListing($this->getTable());
         $columnsToSearch = array_merge(
-            Featica::$dashboardModelsDefaultSearchColumns,
+            Featica::getDashboardModelsDefaultSearchColumns(),
             Arr::wrap(Arr::get($item, 'columns'))
         );
 

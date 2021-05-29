@@ -4,7 +4,7 @@ use Featica\Featica;
 use Featica\Feature;
 
 beforeEach(function () {
-    Featica::$features = [];
+    Featica::clearDefinedFeatures();
     Featica::auth(fn() => true);
 });
 

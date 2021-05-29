@@ -5,7 +5,7 @@ use Featica\Feature;
 use Featica\Tests\Models\User;
 
 beforeEach(function () {
-    Featica::$features = [];
+    Featica::clearDefinedFeatures();
 
     Featica::add(new Feature(
         key: 'global-enabled',
@@ -14,7 +14,7 @@ beforeEach(function () {
 });
 
 test('features can be registered', function () {
-    Featica::$features = [];
+    Featica::clearDefinedFeatures();
 
     $feature1 = Featica::add(new Feature(key: 'feature-1'));
     $feature2 = Featica::add(new Feature(key: 'feature-2'));
@@ -25,12 +25,12 @@ test('features can be registered', function () {
     $this->assertEquals([
         'feature-1',
         'feature-2',
-    ], array_keys(Featica::$features));
+    ], array_keys(Featica::definedFeatures()));
 
     $this->assertEquals([
         $feature1,
         $feature2
-    ], array_values(Featica::$features));
+    ], array_values(Featica::definedFeatures()));
 
 });
 
@@ -133,9 +133,9 @@ test('Featica::inertiaShareData() works', function () {
 });
 
 test('Featica::setDefaultOwner(...) works', function () {
-    expect(Featica::$defaultFeatureOwner)->toBeNull();
+    expect(Featica::getDefaultOwner())->toBeNull();
 
     Featica::setDefaultOwner('Default Owner');
 
-    expect(Featica::$defaultFeatureOwner)->toBe('Default Owner');
+    expect(Featica::getDefaultOwner())->toBe('Default Owner');
 });

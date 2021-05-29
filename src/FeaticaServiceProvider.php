@@ -34,6 +34,8 @@ class FeaticaServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(FeaticaManager::class);
+
         $this->mergeConfigFrom(__DIR__ . '/../config/featica.php', 'featica');
 
         $this->commands([

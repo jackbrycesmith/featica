@@ -22,7 +22,10 @@
     "autoload": {
         "psr-4": {
             "Featica\\": "src"
-        }
+        },
+        "files": [
+            "./helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -43,7 +46,7 @@
                 "Featica\\FeaticaServiceProvider"
             ],
             "aliases": {
-                "Featica": "Featica\\FeaticaFacade"
+                "Featica": "Featica\\Featica"
             }
         }
     },

@@ -53,12 +53,12 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'user' => fn() => auth()->user(),
-            'features' => fn() => array_values(Featica::$features),
+            'features' => fn() => array_values(Featica::definedFeatures()),
             'featica_dashboard' => [
                 'app_name' => config('app.name'),
                 'path' => config('featica.path'),
                 'timezone' => config('app.timezone'),
-                'default_feature_owner' => Featica::$defaultFeatureOwner
+                'default_feature_owner' => Featica::getDefaultOwner()
             ]
         ]);
     }
