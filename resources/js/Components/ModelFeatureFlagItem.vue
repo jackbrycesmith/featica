@@ -48,7 +48,7 @@
   </li>
 </template>
 
-<script setup>
+<script>
 import { computed, defineProps, defineEmit, ref } from 'vue'
 import { useClipboard } from '@vueuse/core'
 import { SwitchGroup, Switch, SwitchLabel } from '@headlessui/vue'
@@ -57,39 +57,41 @@ import FeatureStateHint from '@/Components/FeatureStateHint.vue'
 import HeroiconsMediumKey from '@/svgs/heroicons/medium-key.svg'
 import HeroiconsMediumClipboardCheck from '@/svgs/heroicons/medium-clipboard-check.svg'
 
-const keyIcon = ref(null)
-const { copy } = useClipboard()
-const emit = defineEmit(['update:modelValue', 'update:model', 'changed'])
-const props = defineProps({
-  feature: {
-    type: Object
+export default {
+  components: { SwitchGroup, Switch, SwitchLabel, SuccessFlashSwitcher, FeatureStateHint, HeroiconsMediumKey, HeroiconsMediumClipboardCheck },
+  props: {
+    feature: { type: Object, required: true },
+    modelValue: { type: Object, default: null },
+    type: { type: String, required: true },
   },
-  model: {
-    // type: Object
+  emits: ['update:modelValue', 'changed'],
+  setup (props, { emit }) {
+    const { copy } = useClipboard()
+    const keyIcon = ref(null)
+
+    const toggleState = computed({
+      get: () => props.modelValue?.[`${props.feature.key}`] === 'on',
+      set: val => {
+        const modelKey = props.feature.key
+        let existingModel = (props.modelValue === 'null') ? {} : props.modelValue
+        const updateModel = { ...existingModel, [modelKey]: val ? 'on' : 'off' }
+        emit('update:modelValue', updateModel)
+        emit('changed')
+      }
+    })
+
+    function classNames(...classes) {
+      return classes.filter(Boolean).join(' ')
+    }
+
+    function resolveSwitchClass({ checked }) {
+      return classNames(
+        'relative inline-flex flex-shrink-0 h-6 transition-colors duration-200 ease-in-out border-2 border-transparent rounded-full cursor-pointer w-11 focus:outline-none focus:shadow-outline',
+        checked ? 'bg-green-500' : 'bg-gray-200'
+      )
+    }
+
+    return { classNames, copy, keyIcon, resolveSwitchClass, toggleState }
   },
-  type: {
-    type: String
-  },
-})
-
-const toggleState = computed(() => {
-  return props.model?.[`${props.feature.key}`] === 'on'
-}, (val) => {
-  const modelKey = props.feature.key
-  let existingModel = (props.model === 'null') ? {} : props.model
-  const updateModel = { ...existingModel, [modelKey]: val ? 'on' : 'off' }
-  emit('update:model', updateModel)
-  emit('changed')
-})
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
-
-function resolveSwitchClass({ checked }) {
-  return classNames(
-    'relative inline-flex flex-shrink-0 h-6 transition-colors duration-200 ease-in-out border-2 border-transparent rounded-full cursor-pointer w-11 focus:outline-none focus:shadow-outline',
-    checked ? 'bg-green-500' : 'bg-gray-200'
-  )
 }
 </script>

@@ -41,17 +41,17 @@
                 </h2>
                 <div class="space-y-5">
                   <DateIconLabel
-                    v-for="(date, key) in feature__.dates"
+                    v-for="(date, key) in modelFeature.dates"
                     :key="key"
                     :label="key"
                     :date-string="date"
                   />
                 </div>
                 <div
-                  :class="{ 'border-t mt-6 pt-6': size(feature__.dates) > 0 }"
+                  :class="{ 'border-t mt-6 pt-6': size(modelFeature.dates) > 0 }"
                   class="border-b border-gray-200 pb-6 space-y-8"
                 >
-                  <FeatureOwner :name="feature__.owner_name" />
+                  <FeatureOwner :name="modelFeature.owner_name" />
                 </div>
               </aside>
               <div class="py-3 xl:pt-6 xl:pb-0" />
@@ -64,17 +64,17 @@
           </h2>
           <div class="space-y-5">
             <DateIconLabel
-              v-for="(date, key) in feature__.dates"
+              v-for="(date, key) in modelFeature.dates"
               :key="key"
               :label="key"
               :date-string="date"
             />
           </div>
           <div
-            :class="{ 'border-t mt-6 py-6': size(feature__.dates) > 0 }"
+            :class="{ 'border-t mt-6 py-6': size(modelFeature.dates) > 0 }"
             class="border-gray-200 space-y-8"
           >
-            <FeatureOwner :name="feature__.owner_name" />
+            <FeatureOwner :name="modelFeature.owner_name" />
           </div>
         </aside>
       </div>
@@ -83,10 +83,11 @@
 </template>
 
 <script setup>
-import { defineProps, ref, watch, computed } from 'vue'
+import { defineProps, ref, toRef  , computed } from 'vue'
 import { useClipboard, useTitle } from '@vueuse/core'
 import { parseISO, format as formatDate } from 'date-fns'
 import { startCase, lowerCase, upperFirst, size } from 'lodash-es'
+import useModel from '@/Composables/useModel.js'
 import FeaticaLogo from '@/svgs/featica-logo.svg'
 import HeroiconsSmallCalendar from '@/svgs/heroicons/small-calendar.svg'
 import HeroiconsMediumKey from '@/svgs/heroicons/medium-key.svg'
@@ -99,22 +100,17 @@ import FeatureStateHint from '@/Components/FeatureStateHint.vue'
 import SuccessFlashSwitcher from '@/Components/SuccessFlashSwitcher.vue'
 
 const props = defineProps({
-  feature: {}
+  feature: { type: Object, required: true }
 })
+const { asModel: modelFeature } = useModel(toRef(props, 'feature'), Feature)
 
 const { copy } = useClipboard()
 
 const keyIcon = ref(null)
 
-const feature__ = ref({})
-
 const title = computed(() => {
-  return `${feature__.value?.key} | featica`
+  return `${modelFeature.value?.key} | featica`
 })
 
 useTitle(title)
-
-watch(() => props.feature, () => {
-  feature__.value = Feature.make(props.feature)
-}, { immediate: true })
 </script>

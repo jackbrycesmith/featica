@@ -10,33 +10,25 @@
     </div>
 
     <FeaturesList
-      :features="features__"
+      :features="modelFeatures"
       class="mt-5"
     />
   </div>
 </template>
 
 <script setup>
-import { defineProps, ref, watch } from 'vue'
+import { defineProps, ref, toRef, watch } from 'vue'
 import { useTitle } from '@vueuse/core'
 import { getPayloadData } from '@/Utils/Data.js'
 import FeaticaLogo from '@/svgs/featica-logo.svg'
 import FeaturesList from '@/Components/FeaturesList.vue'
 import Feature from '@/Models/Feature.js'
+import useModel from '@/Composables/useModel.js'
 useTitle('Features | featica')
 
 const props = defineProps({
-  features: {
-    type: Array,
-    default: () => []
-  }
+  features: { type: Array, default: () => [] }
 })
 
-// const modelFeatures = useModel(Feature, props.features)
-
-const features__ = ref([])
-watch(() => props.features, () => {
-  features__.value = Feature.make(getPayloadData(props.features))
-}, { deep: true, immediate: true })
-
+const { asModel: modelFeatures } = useModel(toRef(props, 'features'), Feature)
 </script>

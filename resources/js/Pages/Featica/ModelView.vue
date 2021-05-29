@@ -41,7 +41,7 @@
                   <ModelFeatureFlagItem
                     v-for="feature in $page.props.features"
                     :key="feature.key"
-                    v-model:model="model__.feature_flags"
+                    v-model="model__.feature_flags"
                     :feature="feature"
                     :type="type"
                     @changed="handleFeatureFlagChange"
@@ -74,19 +74,19 @@
 import { Inertia } from '@inertiajs/inertia'
 import { debounce, cloneDeep } from 'lodash-es'
 import { useTitle } from '@vueuse/core'
-import { defineProps, ref, computed, watch } from 'vue'
+import { computed, defineProps, toRef, watch } from 'vue'
 import DateIconLabel from '@/Components/DateIconLabel.vue'
 import HeroiconsSmallCalendar from '@/svgs/heroicons/small-calendar.svg'
 import ModelFeatureFlagItem from '@/Components/ModelFeatureFlagItem.vue'
+import HasFeatureFlags from '@/Models/HasFeatureFlags.js'
+import useModel from '@/Composables/useModel.js'
 
 const props = defineProps({
-  type: {
-    type: String,
-  },
-  model: {}
+  type: { type: String },
+  model: { type: Object, required: true }
 })
 
-const model__ = ref({})
+const { asModel: model__ } = useModel(toRef(props, 'model'), HasFeatureFlags)
 
 const modelTitle = computed(() => {
   if (props.type === 'users') {
@@ -97,10 +97,6 @@ const modelTitle = computed(() => {
 })
 
 useTitle(`${modelTitle.value} | featica`)
-
-watch(() => props.model, () => {
-  model__.value = cloneDeep(props.model)
-}, { deep: true, immediate: true })
 
 const handleFeatureFlagChange = () => updateModelFeatureFlagsRequest()
 
