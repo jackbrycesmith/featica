@@ -52,8 +52,9 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { Inertia } from '@inertiajs/inertia'
+import { useRemember } from '@inertiajs/inertia-vue3'
 import useKeydown from '@/Composables/useKeydown.js'
 import { upperFirst, throttle, pickBy } from 'lodash-es'
 import { useTitle } from '@vueuse/core'
@@ -61,62 +62,61 @@ import { defineProps, computed, ref, watch } from 'vue'
 import Pagination from '@/Components/Pagination.vue'
 import ModelsList from '@/Components/ModelsList.vue'
 
-const props = defineProps({
-  type: {
-    type: String,
-    default: 'Models'
+export default {
+  components: { ModelsList, Pagination },
+  props: {
+    type: { type: String, default: 'Models' },
+    models: { type: Object, default: () => {} },
+    filters: { type: Object, default: () => {} }
   },
-  models: {
-    type: Object
-  },
-  filters: {
-    type: Object,
-    default: () => {}
-  }
-})
+  setup (props) {
+    const searchInput = ref(null)
 
-const searchInput = ref(null)
+    const modelListTitle = computed(() => upperFirst(props.type))
 
-const modelListTitle = computed(() => upperFirst(props.type))
+    const form__ = ref({
+      search: props.filters?.search,
+    })
 
-const form = ref({
-  search: props.filters?.search
-})
+    const title = computed(() => {
+      return `${modelListTitle.value} | featica`
+    })
 
-const title = computed(() => {
-  return `${modelListTitle.value} | featica`
-})
+    const form = useRemember(form__, 'search')
 
-useTitle(title)
+    useTitle(title)
 
-watch(form, throttle(() => {
-  let query = pickBy(form.value)
-  let url = new URL(window.location.href)
-  if (query.search) {
-    url.searchParams.set('search', query.search)
-  } else {
-    url.searchParams.delete('search')
-  }
+    watch(form, throttle(() => {
+      let query = pickBy(form.value)
+      let url = new URL(window.location.href)
+      if (query.search) {
+        url.searchParams.set('search', query.search)
+      } else {
+        url.searchParams.delete('search')
+      }
 
-  Inertia.visit(
-    url,
-    {
-      replace: true,
-      preserveState: true,
-      only: ['models']
+      Inertia.visit(
+        url,
+        {
+          replace: true,
+          preserveState: true,
+          only: ['models']
+        }
+      )
+    }, 300), { deep: true })
+
+    useKeydown([
+      { key: '/', fn: handleSearchInputFocus }
+    ])
+
+    function handleSearchInputFocus (event) {
+      if (document.activeElement !== searchInput.value) {
+        event.preventDefault()
+        searchInput.value?.focus()
+      }
     }
-  )
-}, 300), { deep: true })
 
-useKeydown([
-  { key: '/', fn: handleSearchInputFocus }
-])
-
-function handleSearchInputFocus (event) {
-  if (document.activeElement !== searchInput.value) {
-    event.preventDefault()
-    searchInput.value?.focus()
+    return { modelListTitle, searchInput, form }
   }
 }
-
 </script>
