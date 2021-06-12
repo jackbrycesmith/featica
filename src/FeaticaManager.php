@@ -213,18 +213,18 @@ class FeaticaManager
      * Decide what to return for a given model & feature.
      *
      * @param string $feature The feature
-     * @param \Illuminate\Database\Eloquent\Model|null $model
+     * @param \Illuminate\Database\Eloquent\Model|null $for
      * @param Closure $on The enabled
      * @param Closure $disabled The disabled
      * @return mixed
      */
-    public function when(string $feature, ?Model $model = null, mixed $on = null, mixed $off = null)
+    public function when(string $feature, ?Model $for = null, mixed $on = null, mixed $off = null)
     {
-        if (empty($model)) {
+        if (empty($for)) {
             return $this->evaluate($this->isEnabled($feature), $on, $off);
         }
 
-        return $this->evaluate($this->modelHasFeature($model, $feature), $on, $off);
+        return $this->evaluate($this->modelHasFeature($for, $feature), $on, $off);
     }
 
     /**

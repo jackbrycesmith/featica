@@ -51,7 +51,7 @@ test('Featica::when returns correct callback for global enabled feature', functi
 
     $result = Featica::when(
         feature: 'global-enabled',
-        model: $user,
+        for: $user,
         on: fn() => 'then result',
         off: fn() => 'otherwise result',
     );
@@ -78,7 +78,7 @@ test('Featica::when returns correct callback for global disabled feature', funct
 
     $result = Featica::when(
         feature: 'global-disabled',
-        model: $user,
+        for: $user,
         on: fn() => 'then result',
         off: fn() => 'otherwise result',
     );
@@ -87,7 +87,7 @@ test('Featica::when returns correct callback for global disabled feature', funct
 
     $result = Featica::when(
         feature: 'global-disabled',
-        model: $user,
+        for: $user,
         on: 'then result',
         off: 'otherwise result',
     );

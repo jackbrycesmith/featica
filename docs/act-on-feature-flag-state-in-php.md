@@ -19,7 +19,7 @@ Here's a snippet of using the `when` helper to return different page responses..
 ```php
 return Featica::when(
     feature: 'new-welcome-page',
-	model: Auth::user(),
+	for: Auth::user(),
 	on: fn() => Inertia::render('NewWelcomePage'),
 	off: fn() => Inertia::render('WelcomePage'),
 );
@@ -50,7 +50,7 @@ You have the option to pass a [feature flag owning model](./setup-models-that-ow
 ```php{3}
 return Featica::when(
 	feature: 'new-welcome-page',
-	model: Auth::user(),
+	for: Auth::user(),
 	on: fn() => Inertia::render('NewWelcomePage'),
 	off: fn() => Inertia::render('WelcomePage'),
 );
@@ -58,12 +58,12 @@ return Featica::when(
 
 ### Act differently based on feature is `on` or `off`
 
-You can decide how what should be returned based on the evaluated feature state. Whilst it's useful in this case to provide a `Closure` to be called, it's not a requirement—you can provide any other plain value to be returned. They can also be combined or omitted freely. 
+You can decide how what should be returned based on the evaluated feature state. Whilst it's useful in this case to provide a `Closure` to be called, it's not a requirement—you can provide any other plain value to be returned. They can also be combined or omitted freely.
 
 ```php{4-5,10-11,16,21}
 return Featica::when(
 	feature: 'new-welcome-page',
-	model: Auth::user(),
+	for: Auth::user(),
 	on: fn() => Inertia::render('NewWelcomePage'),
 	off: fn() => Inertia::render('WelcomePage'),
 );
