@@ -52,10 +52,12 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request)
     {
         return array_merge(parent::share($request), [
-            'user' => fn() => auth()->user(),
-            'features' => fn() => array_values(Featica::definedFeatures()),
+            'user' => fn () => auth()->user(),
+            'features' => fn () => array_values(Featica::definedFeatures()),
             'featica_dashboard' => [
                 'app_name' => config('app.name'),
+                'version' => fn () => Featica::version(pretty: true),
+                'nav_items' => fn () => Featica::navigationItems(),
                 'path' => config('featica.path'),
                 'timezone' => config('app.timezone'),
                 'default_feature_owner' => Featica::getDefaultOwner()

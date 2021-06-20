@@ -23,7 +23,7 @@
             </span>
           </div>
           <div
-            class="relative group flex items-center space-x-2.5 cursor-pointer"
+            class="relative group flex items-center space-x-2.5 cursor-copy"
             @click.prevent="copy(feature.key) && keyIcon.success()"
           >
             <SuccessFlashSwitcher ref="keyIcon">

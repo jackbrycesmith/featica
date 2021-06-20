@@ -7,6 +7,8 @@ use Featica\Http\Middleware\HandleInertiaRequests;
 
 class Constants
 {
+    const PACKAGE_NAME = 'jackbrycesmith/featica';
+
     const DASHBOARD_MIDDLEWARE = [
         'web',
         AuthenticateDashboard::class,

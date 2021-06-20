@@ -6,64 +6,18 @@ use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Str;
 use Throwable;
 
 class FeaticaManager
 {
+    use FeaticaManagerDashboard;
+
     /**
      * The features that exist within the application.
      *
      * @var array
      */
     protected array $features = [];
-
-    /**
-     * The default fallback 'owner' for all features, unless otherwise stated.
-     *
-     * @var ?string
-     */
-    protected ?string $defaultFeatureOwner = null;
-
-    /**
-     * The feature owning models that exist within the application.
-     *
-     * @var array
-     */
-    protected array $owningModels = [
-        'user' => 'App\\Models\\User',
-        'team' => 'App\\Models\\Team',
-    ];
-
-    /**
-     * The feature owning models that exist within the application.
-     *
-     * @var array
-     */
-    protected array $owningModelDashboardSearch = [
-        'App\\Models\\User' => [
-            'columns' => ['name', 'email'],
-            'relationships' => ['']
-        ],
-        'App\\Models\\Team' => [
-            'columns' => ['name'],
-            'relationships' => ['']
-        ],
-    ];
-
-    /**
-     * The feature owning model columns to attempt searching through for the dashboard UI.
-     *
-     * @var array
-     */
-    protected array $dashboardModelsDefaultSearchColumns = ['id', 'uuid', 'name', 'email'];
-
-    /**
-     * The callback that should be used to authenticate Featica dashboard users.
-     *
-     * @var ?Closure
-     */
-    protected ?Closure $authUsing;
 
     /**
      * Define a feature flag.
@@ -96,37 +50,6 @@ class FeaticaManager
     public function clearDefinedFeatures()
     {
         $this->features = [];
-    }
-
-    /**
-     * Get the definitions of how feature owning models can be search filtered within the dashboard.
-     *
-     * @return array
-     */
-    public function getOwningModelDashboardSearch(): array
-    {
-        return $this->owningModelDashboardSearch;
-    }
-
-    /**
-     * Set how feature owning models can be search filtered within the dashboard.
-     *
-     * @param array $items
-     * @return void
-     */
-    public function setOwningModelDashboardSearch(array $items)
-    {
-        return $this->owningModelDashboardSearch = $items;
-    }
-
-    /**
-     * Get the default columns for models that can be search filtered within the dashboard.
-     *
-     * @return array
-     */
-    public function getDashboardModelsDefaultSearchColumns(): array
-    {
-        return $this->dashboardModelsDefaultSearchColumns;
     }
 
     /**
@@ -196,20 +119,6 @@ class FeaticaManager
     }
 
     /**
-     * Set the callback that should be used to authenticate Featica dashboard
-     * users.
-     *
-     * @param \Closure $callback
-     * @return self
-     */
-    public function auth(Closure $callback)
-    {
-        $this->authUsing = $callback;
-
-        return $this;
-    }
-
-    /**
      * Decide what to return for a given model & feature.
      *
      * @param string $feature The feature
@@ -258,64 +167,5 @@ class FeaticaManager
         }
 
         return $feature->isEnabled();
-    }
-
-    /**
-     * Determine if the given request can access the Featica dashboard.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return bool
-     */
-    public function check($request)
-    {
-        return ($this->authUsing ?: function () {
-            return app()->environment('local');
-        })($request);
-    }
-
-    /**
-     * Gets the default feature 'owner'.
-     *
-     * @return string|null
-     */
-    public function getDefaultOwner(): ?string
-    {
-        return $this->defaultFeatureOwner;
-    }
-
-    /**
-     * Sets the default feature 'owner'.
-     *
-     * @param $name The name of the owner
-     * @return void
-     */
-    public function setDefaultOwner(?string $name = null)
-    {
-        $this->defaultFeatureOwner = $name;
-    }
-
-    /**
-     * Resolve the feature flag owning model class for a given key.
-     *
-     * @param string $key
-     * @return string|null
-     */
-    public function resolveFeatureFlagOwningModel(string $key): ?string
-    {
-        return Arr::get($this->owningModels, Str::singular($key));
-    }
-
-    /**
-     * Set the feature owning model for visibility in the dashboard.
-     *
-     * @param string $key
-     * @param string $modelClass
-     * @return self
-     */
-    public function setOwningModel(string $key, string $modelClass)
-    {
-        $this->owningModels[Str::lower(Str::singular($key))] = $modelClass;
-
-        return $this;
     }
 }

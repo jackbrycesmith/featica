@@ -14,7 +14,7 @@
                     {{ feature?.meta?.['name'] ?? startCase(feature.key) }}
                   </h1>
                   <h2
-                    class="text-lg sm:text-xl flex items-center space-x-2.5 font-medium text-gray-500 group cursor-pointer"
+                    class="text-lg sm:text-xl flex items-center space-x-2.5 font-medium text-gray-500 group cursor-copy"
                     @click="copy(feature.key) && keyIcon.success()"
                   >
                     <SuccessFlashSwitcher ref="keyIcon">

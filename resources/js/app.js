@@ -6,6 +6,10 @@ import { lineClamp } from '@twind/line-clamp'
 import { aspectRatio } from '@twind/aspect-ratio'
 import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue3'
 import FeaticaLayout from '@/Layouts/FeaticaLayout'
+import VueTippy from 'vue-tippy'
+import 'tippy.js/dist/tippy.css'
+import 'tippy.js/animations/shift-away.css'
+import { Icon } from '@iconify/vue'
 
 InertiaProgress.init({
   delay: 250,
@@ -51,6 +55,13 @@ window.route = {
 app.config.globalProperties.$route = new Proxy(window.route, {})
 
 app.use(InertiaPlugin)
+app.use(VueTippy, {
+  directive: 'tooltip',
+  defaultProps: { allowHTML: true, animation: 'shift-away', inertia: true }
+})
+
+app.component('Icon', Icon)
+
 app.mount(el)
 
 twindSetup({

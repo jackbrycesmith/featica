@@ -31,7 +31,10 @@
       <header class="relative py-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 class="text-3xl font-bold text-white truncate select-none">
-            <FeaticaLogo class="inline-block h-10" />
+            <FeaticaLogo
+              v-tooltip="{ content: $page.props?.featica_dashboard?.version ?? '¿?', placement: 'bottom' }"
+              class="inline-block h-10"
+            />
             <span class="text-lg align-middle ml-2">for {{ appName }}</span>
           </h1>
         </div>
@@ -74,26 +77,25 @@
                 <!-- Features navigation item -->
                 <inertia-link
                   :href="featureNavItem.href"
-                  :class="isNavItemActive(featureNavItem.href)
+                  :class="featureNavItem.isActiveFor($page.url)
                     ? 'bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700'
                     : 'border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900'
                   "
                   class="group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
                 >
-                  <component
-                    :is="featureNavItem.iconComponent"
-                    :class="isNavItemActive(featureNavItem.href) ? 'text-teal-500 group-hover:text-teal-500' : 'text-gray-400 group-hover:text-gray-500'"
+                  <Icon
+                    :icon="featureNavItem.icon"
+                    :class="featureNavItem.isActiveFor($page.url) ? 'text-teal-500 group-hover:text-teal-500' : 'text-gray-400 group-hover:text-gray-500'"
                     class="flex-shrink-0 -ml-1 mr-3 h-6 w-6"
                   />
 
                   <span class="truncate">
-                    {{ featureNavItem.name }}
+                    {{ featureNavItem.label }}
                   </span>
                 </inertia-link>
 
                 <!-- Navigation separator -->
                 <div
-                  title="Models that have feature flags…"
                   class="py-5 relative"
                 >
                   <div
@@ -103,44 +105,37 @@
                     <div class="border-gray-200 border-t w-full" />
                   </div>
                   <div class="flex justify-center relative">
-                    <span class="bg-white pl-3 pr-2 pr-3 text-gray-500 text-sm">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        class="h-5 inline-block text-yellow-400 w-5"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                        />
-                      </svg>
+                    <span
+                      v-tooltip="{ content: 'Models', placement: 'bottom' }"
+                      class="bg-white pl-3 pr-2 pr-3 text-gray-500 text-sm"
+                    >
+                      <Icon
+                        icon="heroicons-outline:cube"
+                        class="h-5 inline-block text-yellow-400 w-5 -ml-0.5"
+                      />
                     </span>
                   </div>
                 </div>
 
                 <!-- Model navigation items -->
                 <inertia-link
-                  v-for="navItem in filteredNavItems"
-                  :key="navItem.name"
+                  v-for="navItem in navigationItems"
+                  :key="navItem.label"
                   :href="navItem.href"
-                  :class="isNavItemActive(navItem.href)
+                  :class="navItem.isActiveFor($page.url)
                     ? 'bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700'
                     : 'border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900'
                   "
                   class="group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
                 >
-                  <component
-                    :is="navItem.iconComponent"
-                    :class="isNavItemActive(navItem.href) ? 'text-teal-500 group-hover:text-teal-500' : 'text-gray-400 group-hover:text-gray-500'"
+                  <Icon
+                    :icon="navItem.icon"
+                    :class="navItem.isActiveFor($page.url) ? 'text-teal-500 group-hover:text-teal-500' : 'text-gray-400 group-hover:text-gray-500'"
                     class="flex-shrink-0 -ml-1 mr-3 h-6 w-6"
                   />
 
                   <span class="truncate">
-                    {{ navItem.name }}
+                    {{ navItem.label }}
                   </span>
                 </inertia-link>
               </nav>
@@ -160,12 +155,14 @@
 // import FeaticaLogo from '@/svgs/featica-logo-mark-plain-black.svg'
 // import FeaticaLogo from '@/svgs/featica-logo.svg'
 // import FeaticaLogo from '@/svgs/featica-logo-with-mark-again.svg'
+import { NavItem } from '@/Utils/Navigation.js'
 import FeaticaLogo from '@/svgs/featica-logo-with-filled-bg-mark-dots-ryg.svg'
 // import FeaticaMark from '@/svgs/featica-circle-mark.svg'
 import HeroiconsMediumPuzzle from '@/svgs/heroicons/medium-puzzle.svg'
 import HeroiconsMediumUser from '@/svgs/heroicons/medium-user.svg'
 import HeroiconsMediumUserGroup from '@/svgs/heroicons/medium-user-group.svg'
 import { find, filter, map, endsWith, trimEnd, some } from 'lodash-es'
+import useNavigation from '@/Composables/useNavigation.js'
 
 export default {
   components: {
@@ -177,76 +174,29 @@ export default {
       class: ['h-full bg-gray-100']
     }
   }),
+  setup () {
+    const { navigationItems } = useNavigation()
+
+    return { navigationItems }
+  },
   computed: {
     appName () {
       return this.$page.props?.featica_dashboard?.app_name
     },
-    navItems () {
-      return [
-        {
-          name: 'Features',
-          href: this.$route.home,
-          iconComponent: HeroiconsMediumPuzzle,
-          matchNested: true,
-          nested: [
-            {
-              name: 'Feature',
-              href: this.$route.feature
-            }
-          ]
-        },
-        {
-          name: 'Users',
-          href: this.$route.model_users,
-          iconComponent: HeroiconsMediumUser
-        },
-        {
-          name: 'Teams',
-          href: this.$route.model_teams,
-          iconComponent: HeroiconsMediumUserGroup
-        },
-      ]
-    },
     featureNavItem () {
-      return find(this.navItems, { name: 'Features' })
+      return new NavItem({
+        label: 'Features',
+        href: this.$route.home,
+        icon: 'heroicons-outline:puzzle',
+        matchNested: true,
+        nested: [
+          new NavItem({
+            href: this.$route.feature
+          })
+        ]
+      })
     },
-    filteredNavItems ()  {
-      return filter(this.navItems, (item) => item.name !== 'Features')
-    }
-  },
-  methods: {
-    isNavItemActive (href) {
-      if (href.length >= 2 && endsWith(href, '/')) {
-        href = trimEnd(href, '/')
-      }
-
-      let pathname = window.location.pathname
-      if (pathname.length >= 2 && endsWith(pathname, '/')) {
-        pathname = trimEnd(pathname, '/')
-      }
-
-      // Return early if matches exactly
-      const matchesExact = pathname === href
-      if (matchesExact) {
-        return matchesExact
-      }
-
-      // Find navigation item & check if it must match the nested routes
-      const navItem = find(this.navItems, { href })
-      const matchNested = navItem?.matchNested ?? false
-
-      if (pathname.startsWith(href) && matchNested) {
-        const nestedHrefs = map(navItem?.nested ?? [], 'href') ?? []
-        const matchesNested = some(nestedHrefs, function (value) {
-          return pathname.startsWith(value)
-        })
-
-        return matchesNested
-      }
-
-      return pathname.startsWith(href)
-    }
-  },
+  }
 }
 </script>
 
