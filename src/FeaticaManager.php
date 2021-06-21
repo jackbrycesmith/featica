@@ -3,14 +3,16 @@
 namespace Featica;
 
 use Closure;
-use Illuminate\Database\Eloquent\Model;
+use Throwable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
-use Throwable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Traits\Macroable;
 
 class FeaticaManager
 {
     use FeaticaManagerDashboard;
+    use Macroable;
 
     /**
      * The features that exist within the application.

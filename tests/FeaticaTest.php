@@ -13,6 +13,12 @@ beforeEach(function () {
     ));
 });
 
+test('macroable', function () {
+    Featica::macro('ello', fn () => '👋');
+
+    expect(Featica::ello())->toBe('👋');
+});
+
 test('features can be registered', function () {
     Featica::clearDefinedFeatures();
 
