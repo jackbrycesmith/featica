@@ -19,11 +19,17 @@
                   >
                     <SuccessFlashSwitcher ref="keyIcon">
                       <template #default>
-                        <HeroiconsMediumKey class="flex-shrink-0 w-6 h-6 group-hover:text-gray-600" />
+                        <Icon
+                          icon="heroicons-outline:key"
+                          class="flex-shrink-0 w-6 h-6 group-hover:text-gray-600"
+                        />
                       </template>
 
                       <template #success>
-                        <HeroiconsMediumClipboardCheck class="flex-shrink-0 w-6 h-6 text-green-500" />
+                        <Icon
+                          icon="heroicons-outline:clipboard-check"
+                          class="flex-shrink-0 w-6 h-6 text-green-500"
+                        />
                       </template>
                     </SuccessFlashSwitcher>
 
@@ -89,9 +95,6 @@ import { parseISO, format as formatDate } from 'date-fns'
 import { startCase, lowerCase, upperFirst, size } from 'lodash-es'
 import useModel from '@/Composables/useModel.js'
 import FeaticaLogo from '@/svgs/featica-logo.svg'
-import HeroiconsSmallCalendar from '@/svgs/heroicons/small-calendar.svg'
-import HeroiconsMediumKey from '@/svgs/heroicons/medium-key.svg'
-import HeroiconsMediumClipboardCheck from '@/svgs/heroicons/medium-clipboard-check.svg'
 import FeaturesList from '@/Components/FeaturesList.vue'
 import DateIconLabel from '@/Components/DateIconLabel.vue'
 import FeatureOwner from '@/Components/FeatureOwner.vue'

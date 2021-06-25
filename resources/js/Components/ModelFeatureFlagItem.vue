@@ -8,11 +8,17 @@
         >
           <SuccessFlashSwitcher ref="keyIcon">
             <template #default>
-              <HeroiconsMediumKey class="flex-shrink-0 w-5 h-5 text-gray-400 group-hover:text-gray-500" />
+              <Icon
+                icon="heroicons-outline:key"
+                class="flex-shrink-0 w-5 h-5 text-gray-400 group-hover:text-gray-500"
+              />
             </template>
 
             <template #success>
-              <HeroiconsMediumClipboardCheck class="flex-shrink-0 w-5 h-5 text-green-500 group-hover:text-green-500" />
+              <Icon
+                icon="heroicons-outline:clipboard-check"
+                class="flex-shrink-0 w-5 h-5 text-green-500 group-hover:text-green-500"
+              />
             </template>
           </SuccessFlashSwitcher>
 
@@ -54,11 +60,9 @@ import { useClipboard } from '@vueuse/core'
 import { SwitchGroup, Switch, SwitchLabel } from '@headlessui/vue'
 import SuccessFlashSwitcher from '@/Components/SuccessFlashSwitcher.vue'
 import FeatureStateHint from '@/Components/FeatureStateHint.vue'
-import HeroiconsMediumKey from '@/svgs/heroicons/medium-key.svg'
-import HeroiconsMediumClipboardCheck from '@/svgs/heroicons/medium-clipboard-check.svg'
 
 export default {
-  components: { SwitchGroup, Switch, SwitchLabel, SuccessFlashSwitcher, FeatureStateHint, HeroiconsMediumKey, HeroiconsMediumClipboardCheck },
+  components: { SwitchGroup, Switch, SwitchLabel, SuccessFlashSwitcher, FeatureStateHint },
   props: {
     feature: { type: Object, required: true },
     modelValue: { type: Object, default: null },

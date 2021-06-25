@@ -1,6 +1,9 @@
 <template>
   <div class="flex items-center space-x-2">
-    <HeroiconsSmallCalendar class="h-5 w-5 text-gray-400 flex-shrink-0" />
+    <Icon
+      icon="heroicons-solid:calendar"
+      class="h-5 w-5 text-gray-400 flex-shrink-0"
+    />
     <span class="text-gray-900 text-sm font-medium">
       {{ labelFormatted }} <time :datetime="dateString">{{ dateFormatted }}</time>
     </span>
@@ -11,7 +14,6 @@
 import { defineProps, computed } from 'vue'
 import { format as formatDate, parseISO } from 'date-fns'
 import { lowerCase, upperFirst } from 'lodash-es'
-import HeroiconsSmallCalendar from '@/svgs/heroicons/small-calendar.svg'
 
 const props = defineProps({
   dateString: { type: String },

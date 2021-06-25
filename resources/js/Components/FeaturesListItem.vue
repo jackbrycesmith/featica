@@ -28,11 +28,17 @@
           >
             <SuccessFlashSwitcher ref="keyIcon">
               <template #default>
-                <HeroiconsMediumKey class="flex-shrink-0 w-5 h-5 text-gray-400 group-hover:text-gray-500" />
+                <Icon
+                  icon="heroicons-outline:key"
+                  class="flex-shrink-0 w-5 h-5 text-gray-400 group-hover:text-gray-500"
+                />
               </template>
 
               <template #success>
-                <HeroiconsMediumClipboardCheck class="flex-shrink-0 w-5 h-5 text-green-500 group-hover:text-green-500" />
+                <Icon
+                  icon="heroicons-outline:clipboard-check"
+                  class="flex-shrink-0 w-5 h-5 text-green-500 group-hover:text-green-500"
+                />
               </template>
             </SuccessFlashSwitcher>
 
@@ -42,7 +48,10 @@
           </div>
         </div>
         <div class="">
-          <HeroiconsSmallChevronRight class="h-5 w-5 text-gray-400" />
+          <Icon
+            icon="heroicons-solid:chevron-right"
+            class="h-5 w-5 text-gray-400"
+          />
         </div>
       </div>
     </inertia-link>
@@ -52,11 +61,6 @@
 <script setup>
 import { defineProps, ref } from 'vue'
 import { useClipboard } from '@vueuse/core'
-import HeroiconsMediumThumbUp from '@/svgs/heroicons/medium-thumb-up.svg'
-import HeroiconsSmallChevronRight from '@/svgs/heroicons/small-chevron-right.svg'
-import HeroiconsMediumThumbDown from '@/svgs/heroicons/medium-thumb-down.svg'
-import HeroiconsMediumKey from '@/svgs/heroicons/medium-key.svg'
-import HeroiconsMediumClipboardCheck from '@/svgs/heroicons/medium-clipboard-check.svg'
 import SuccessFlashSwitcher from '@/Components/SuccessFlashSwitcher.vue'
 import FeatureStateHint from '@/Components/FeatureStateHint.vue'
 

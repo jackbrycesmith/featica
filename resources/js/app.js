@@ -9,7 +9,7 @@ import FeaticaLayout from '@/Layouts/FeaticaLayout'
 import VueTippy from 'vue-tippy'
 import 'tippy.js/dist/tippy.css'
 import 'tippy.js/animations/shift-away.css'
-import { Icon } from '@iconify/vue'
+import { Icon, loadIcons } from '@iconify/vue'
 
 InertiaProgress.init({
   delay: 250,
@@ -101,3 +101,13 @@ twindSetup({
     'line-clamp': lineClamp,
   }
 })
+
+// Preload icons
+loadIcons([
+  'heroicons-outline:key',
+  'heroicons-outline:cube',
+  'heroicons-outline:puzzle',
+  'heroicons-outline:clipboard-check',
+  'heroicons-solid:chevron-right',
+  'heroicons-solid:calendar'
+])

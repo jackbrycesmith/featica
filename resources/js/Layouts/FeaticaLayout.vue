@@ -33,7 +33,7 @@
           <h1 class="text-3xl font-bold text-white truncate select-none">
             <FeaticaLogo
               v-tooltip="{ content: $page.props?.featica_dashboard?.version ?? '¿?', placement: 'bottom' }"
-              class="inline-block h-10"
+              class="inline-block h-10 focus:outline-none"
             />
             <span class="text-lg align-middle ml-2">for {{ appName }}</span>
           </h1>
@@ -158,9 +158,6 @@
 import { NavItem } from '@/Utils/Navigation.js'
 import FeaticaLogo from '@/svgs/featica-logo-with-filled-bg-mark-dots-ryg.svg'
 // import FeaticaMark from '@/svgs/featica-circle-mark.svg'
-import HeroiconsMediumPuzzle from '@/svgs/heroicons/medium-puzzle.svg'
-import HeroiconsMediumUser from '@/svgs/heroicons/medium-user.svg'
-import HeroiconsMediumUserGroup from '@/svgs/heroicons/medium-user-group.svg'
 import { find, filter, map, endsWith, trimEnd, some } from 'lodash-es'
 import useNavigation from '@/Composables/useNavigation.js'
 
@@ -187,7 +184,7 @@ export default {
       return new NavItem({
         label: 'Features',
         href: this.$route.home,
-        icon: 'heroicons-outline:puzzle',
+        icon: 'mdi:star-shooting-outline',
         matchNested: true,
         nested: [
           new NavItem({
